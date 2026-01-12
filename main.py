@@ -76,7 +76,8 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=_parse_origins(),
     allow_credentials=False,
-    allow_methods=["GET"],
+    # Allow OPTIONS for browser preflight and keep GET for the API itself.
+    allow_methods=["GET", "OPTIONS"],
     allow_headers=["*"],
 )
 
