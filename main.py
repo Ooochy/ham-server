@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Dict, List, Optional
@@ -70,11 +71,24 @@ def _parse_origins() -> List[str]:
     return [o.strip() for o in raw.split(",") if o.strip()]
 
 
+def _parse_origin_regex() -> Optional[str]:
+    # Regex fallback covers both :80 and :8080 for 39.106.43.84; override via CORS_ORIGIN_REGEX.
+    env_val = os.getenv("CORS_ORIGIN_REGEX")
+    if env_val:
+        try:
+            re.compile(env_val)
+            return env_val
+        except re.error:
+            pass
+    return r"^https?://39\.106\.43\.84(?::8080)?$"
+
+
 app = FastAPI(title="HAM Question Bank API", version="1.0.0")
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=_parse_origins(),
+    allow_origin_regex=_parse_origin_regex(),
     allow_credentials=False,
     # Allow OPTIONS for browser preflight and keep GET for the API itself.
     allow_methods=["GET", "OPTIONS"],
