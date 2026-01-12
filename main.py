@@ -62,7 +62,7 @@ def _bank_question_count(spec: BankSpec) -> int:
 
 
 def _parse_origins() -> List[str]:
-    raw = os.getenv("CORS_ORIGINS", "http://cuihongyu.com,39.106.43.84,https://cuihongyu.com,")
+    raw = os.getenv("CORS_ORIGINS", "http://cuihongyu.com,http://cuihongyu.com:8080,http://39.106.43.84:8080/,https://cuihongyu.com,https://cuihongyu.com:8080")
     return [o.strip() for o in raw.split(",") if o.strip()]
 
 
