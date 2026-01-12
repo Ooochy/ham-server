@@ -8,7 +8,7 @@ python3 -m venv .venv
 ./.venv/bin/pip install -r requirements.txt
 
 # 允许本地 Vite 访问（可选；多个用逗号分隔）
-export CORS_ORIGINS="http://localhost:5173"
+export CORS_ORIGINS="http://localhost:5173,http://cuihongyu.com,39.106.43.84"
 
 ./.venv/bin/uvicorn main:app --host 0.0.0.0 --port 8001
 ```
